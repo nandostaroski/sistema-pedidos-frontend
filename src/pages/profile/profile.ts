@@ -28,7 +28,15 @@ export class ProfilePage {
         this.cliente = response;
         this.getImageIfExists();
       },
-      error =>{});
+      error =>{
+        if(error.status == 403) {
+          console.log('403');
+          this.navCtrl.setRoot('HomePage');
+        }
+      });
+    } else {
+      console.log('else');
+      this.navCtrl.setRoot('HomePage');
     }
   }
 
