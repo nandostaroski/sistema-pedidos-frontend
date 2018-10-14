@@ -33,7 +33,7 @@ export class ProdutosPage {
     .subscribe(response =>{
       const start = this.items.length;
       this.items = this.items.concat(response['content']);
-      const end = this.items.length;
+      const end = this.items.length-1;
       this.loadImageUrls(start, end);
     },error=>{},
     ()=>{
@@ -42,7 +42,7 @@ export class ProdutosPage {
   }
 
   loadImageUrls(start:number, end: number) {
-    for (var i=start; i<end; i++) {
+    for (var i=start; i<=end; i++) {
       let item = this.items[i];
       this.produtoService.getSmallImageFromBucket(item.id)
         .subscribe(response => {
