@@ -11,11 +11,11 @@ import { API_CONFIG } from '../../config/api.config';
 })
 export class ProdutosPage {
 
-  items: ProdutoDTO[] =[];
+  items: ProdutoDTO[] = [];
   page: number = 0;
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public produtoService: ProdutoService,
     public loadingCtrl: LoadingController) {
@@ -25,35 +25,35 @@ export class ProdutosPage {
     this.loadData();
   }
 
-  loadData(){
+  loadData() {
     const categoria_id = this.navParams.get('categoria_id');
     const loader = this.presentLoading();
     this.produtoService
-    .findByCategoria(categoria_id, this.page, 10)
-    .subscribe(response =>{
-      const start = this.items.length;
-      this.items = this.items.concat(response['content']);
-      const end = this.items.length-1;
-      this.loadImageUrls(start, end);
-    },error=>{},
-    ()=>{
-      loader.dismiss();
-    });
+      .findByCategoria(categoria_id, this.page, 10)
+      .subscribe(response => {
+        const start = this.items.length;
+        this.items = this.items.concat(response['content']);
+        const end = this.items.length - 1;
+        this.loadImageUrls(start, end);
+      }, error => { },
+        () => {
+          loader.dismiss();
+        });
   }
 
-  loadImageUrls(start:number, end: number) {
-    for (var i=start; i<=end; i++) {
+  loadImageUrls(start: number, end: number) {
+    for (var i = start; i <= end; i++) {
       let item = this.items[i];
       this.produtoService.getSmallImageFromBucket(item.id)
         .subscribe(response => {
           item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`;
         },
-        error => {});
+          error => { });
     }
   }
 
   showDetail(produto_id: string) {
-    this.navCtrl.push("ProdutoDetailPage",{produto_id: produto_id});
+    this.navCtrl.push("ProdutoDetailPage", { produto_id: produto_id });
   }
 
   presentLoading() {
@@ -77,7 +77,7 @@ export class ProdutosPage {
     this.page++;
     this.loadData();
     setTimeout(() => {
-      
+
       infiniteScroll.complete();
     }, 1000);
   }

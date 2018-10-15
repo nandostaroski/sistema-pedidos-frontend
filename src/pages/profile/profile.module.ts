@@ -14,4 +14,4 @@ import { Camera } from '@ionic-native/camera'
     Camera
   ]
 })
-export class ProfilePageModule {}
+export class ProfilePageModule { }
